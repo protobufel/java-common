@@ -17,15 +17,34 @@
 
 package com.github.protobufel.common.misc;
 
+import org.assertj.core.api.JUnitSoftAssertions;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+
+import java.lang.reflect.Modifier;
 
 public class StreamablesTest {
+    @Rule
+    public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
+
     @Before
     public void setUp() throws Exception {
     }
 
     @After
     public void tearDown() throws Exception {
+    }
+
+    @Test
+    public void utilityTest() throws Exception {
+        softly.assertThat(Streamables.class).isPublic().isFinal().satisfies(
+                clazz -> {
+                    softly.assertThat(clazz.getConstructors()).isEmpty();
+                    softly.assertThat(clazz.getDeclaredConstructors()).hasSize(1)
+                            .allSatisfy(constructor -> Modifier.isPrivate(constructor.getModifiers()));
+                }
+        );
     }
 }
