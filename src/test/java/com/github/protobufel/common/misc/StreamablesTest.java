@@ -39,7 +39,11 @@ public class StreamablesTest {
 
     @Test
     public void utilityTest() throws Exception {
-        softly.assertThat(Streamables.class).isPublic().isFinal().satisfies(
+        assertThatUtilityClass(softly, Streamables.class);
+    }
+
+    static void assertThatUtilityClass(JUnitSoftAssertions softly, Class<?> utilityClass) {
+        softly.assertThat(utilityClass).isPublic().isFinal().satisfies(
                 clazz -> {
                     softly.assertThat(clazz.getConstructors()).isEmpty();
                     softly.assertThat(clazz.getDeclaredConstructors()).hasSize(1)

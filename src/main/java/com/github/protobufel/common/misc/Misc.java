@@ -20,7 +20,7 @@ package com.github.protobufel.common.misc;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-final class Misc {
+public final class Misc {
     private Misc() {
     }
 
