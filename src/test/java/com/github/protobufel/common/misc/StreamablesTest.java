@@ -29,6 +29,21 @@ public class StreamablesTest {
     @Rule
     public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
 
+    static void assertThatUtilityClass(JUnitSoftAssertions softly, Class<?> utilityClass) {
+        softly
+                .assertThat(utilityClass)
+                .isPublic()
+                .isFinal()
+                .satisfies(
+                        clazz -> {
+                            softly.assertThat(clazz.getConstructors()).isEmpty();
+                            softly
+                                    .assertThat(clazz.getDeclaredConstructors())
+                                    .hasSize(1)
+                                    .allSatisfy(constructor -> Modifier.isPrivate(constructor.getModifiers()));
+                        });
+    }
+
     @Before
     public void setUp() throws Exception {
     }
@@ -40,15 +55,5 @@ public class StreamablesTest {
     @Test
     public void utilityTest() throws Exception {
         assertThatUtilityClass(softly, Streamables.class);
-    }
-
-    static void assertThatUtilityClass(JUnitSoftAssertions softly, Class<?> utilityClass) {
-        softly.assertThat(utilityClass).isPublic().isFinal().satisfies(
-                clazz -> {
-                    softly.assertThat(clazz.getConstructors()).isEmpty();
-                    softly.assertThat(clazz.getDeclaredConstructors()).hasSize(1)
-                            .allSatisfy(constructor -> Modifier.isPrivate(constructor.getModifiers()));
-                }
-        );
     }
 }

@@ -21,6 +21,8 @@ import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
@@ -28,39 +30,38 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
 @Measurement(iterations = 5, time = 1, timeUnit = TimeUnit.SECONDS)
 @Fork(1)
 @State(Scope.Benchmark)
-public class JMHMultiKeyMapVsMap {
+public class JMHStub {
 
-    @Param({"1000"})
-    public int readContainerSize = 1000;
+  @Param({"1000"})
+  public int readContainerSize = 1000;
 
-    @Param({"10"})
-    public int keySize = 10;
+  @Param({"10"})
+  public int keySize = 10;
 
-    @Param({"10"})
-    public int subKeySize = 10;
+  @Param({"10"})
+  public int subKeySize = 10;
 
-    @Param({"100"})
-    public int containerSize = 100;
+  @Param({"100"})
+  public int containerSize = 100;
 
-    private Random random;
+  private Random random;
 
-    public static void main(final String[] args) throws RunnerException {
-        final Options opt =
-                new OptionsBuilder().include(JMHStub.class.getSimpleName()).build();
-        new Runner(opt).run();
-    }
+  public static void main(final String[] args) throws RunnerException {
+    final Options opt = new OptionsBuilder().include(JMHStub.class.getSimpleName()).build();
+    new Runner(opt).run();
+  }
 
-    @Setup(Level.Trial)
-    public void trialSetup() {
-        random = new Random();
-    }
+  @Setup(Level.Trial)
+  public void trialSetup() {
+    random = new Random();
+  }
 
-    @Setup(Level.Iteration)
-    public void iterationSetup() {
-    }
+  @Setup(Level.Iteration)
+  public void iterationSetup() {
+  }
 
-    @Benchmark()
-    public Integer baseline_helloWorld() {
-        return "Hello World!";
-    }
+  @Benchmark()
+  public String baseline_helloWorld() {
+    return "Hello World!";
+  }
 }

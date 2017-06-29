@@ -99,6 +99,11 @@ public final class Streamables {
             this.delegate = delegate;
         }
 
+        @SuppressWarnings("unchecked")
+        public static <T> BaseStreamable<T> empty() {
+            return (BaseStreamable<T>) EMPTY;
+        }
+
         @Override
         public Stream<T> stream() {
             return delegate.stream();
@@ -106,11 +111,6 @@ public final class Streamables {
 
         public Stream<T> parallelStream() {
             return delegate.stream().parallel();
-        }
-
-        @SuppressWarnings("unchecked")
-        public static <T> BaseStreamable<T> empty() {
-            return (BaseStreamable<T>) EMPTY;
         }
     }
 
@@ -249,12 +249,14 @@ public final class Streamables {
         }
 
         @Override
-        public <U> U reduce(U identity, BiFunction<U, ? super T, U> accumulator, BinaryOperator<U> combiner) {
+        public <U> U reduce(
+                U identity, BiFunction<U, ? super T, U> accumulator, BinaryOperator<U> combiner) {
             return getStream().reduce(identity, accumulator, combiner);
         }
 
         @Override
-        public <R> R collect(Supplier<R> supplier, BiConsumer<R, ? super T> accumulator, BiConsumer<R, R> combiner) {
+        public <R> R collect(
+                Supplier<R> supplier, BiConsumer<R, ? super T> accumulator, BiConsumer<R, R> combiner) {
             return getStream().collect(supplier, accumulator, combiner);
         }
 
