@@ -17,38 +17,26 @@
 
 package com.github.protobufel.common.misc;
 
-import org.assertj.core.api.JUnitSoftAssertions;
+import com.github.protobufel.test.common.misc.CommonSoftAssertions;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
-import java.lang.reflect.Modifier;
-
 public class StreamablesTest {
-    @Rule
-    public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
+    private CommonSoftAssertions softly;
 
     @Before
     public void setUp() throws Exception {
+        softly = new CommonSoftAssertions();
     }
 
     @After
     public void tearDown() throws Exception {
+        softly.assertAll();
     }
 
     @Test
-    public void utilityTest() throws Exception {
-        assertThatUtilityClass(softly, Streamables.class);
-    }
-
-    static void assertThatUtilityClass(JUnitSoftAssertions softly, Class<?> utilityClass) {
-        softly.assertThat(utilityClass).isPublic().isFinal().satisfies(
-                clazz -> {
-                    softly.assertThat(clazz.getConstructors()).isEmpty();
-                    softly.assertThat(clazz.getDeclaredConstructors()).hasSize(1)
-                            .allSatisfy(constructor -> Modifier.isPrivate(constructor.getModifiers()));
-                }
-        );
+    public void testIsUtilityClass() throws Exception {
+        softly.assertThatType(Streamables.class).isUtilityClass();
     }
 }
